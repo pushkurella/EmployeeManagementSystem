@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
 import { FormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const appRoutes: Routes = [
   { path : 'create' , component : CreateEmployeeComponent},
   { path : 'list', component :ListEmployeesComponent},
-  { path : 'list' , redirectTo : "/list", pathMatch : 'full'}
+  { path : 'list' , redirectTo : '/list', pathMatch : 'full'}
 ];
 
 @NgModule({
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

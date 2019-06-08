@@ -1,24 +1,26 @@
-<form #employeeForm="ngForm" (ngSubmit)="saveEmployee(employeeForm)">
+<form #employeeForm="ngForm" ngNativeValidate (ngSubmit)="saveEmployee(employee)">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">Create Employee</h3>
     </div>
 
     <div class="panel-body">
-      <div class="form-group">
+      <div class="form-group" [class.has-success]="employee.valid" [class.has-error]="employee.invalid && employee.touched">
         <label for="fullName">Full Name</label>
-        <input id="fullName" name="FullName" [(ngModel)]="fullName" type="text" class="form-control" />
+        <input id="fullName" name="FullName" 
+        required [(ngModel)]="employee.name" #name = "ngModel" type="text" class="form-control" />
+        <span class="help-block" *ngIf="employee.invalid && employee.touched">Full name is required</span>
       </div>
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" name="Email" [(ngModel)]="email" type="text" class="form-control" />
+        <input id="email" required name="Email" [(ngModel)]="employee.email" type="text" class="form-control" />
       </div>
 
 
       <div class="form-group">
         <label for="phone">Phone</label>
-        <input id="phone" name="Phone" [(ngModel)]="phone" type="text" class="form-control" />
+        <input id="phone" name="Phone" [(ngModel)]="employee.phone" type="text" class="form-control" />
       </div>
 
 
@@ -26,10 +28,10 @@
         <label>Contact Preference</label>
         <div class="form-control">
           <label class="radio-inline">
-            <input type="radio" value="ContactPreferenceEmail" name="contactRef" [(ngModel)]="contactpref">Email
+            <input type="radio" value="ContactPreferenceEmail" name="contactRef" [(ngModel)]="employee.contactpref">Email
           </label>
           <label class="radio-inline">
-            <input type="radio" value="ContactPreferencePhone" name="contactRef" [(ngModel)]="contactpref">Phone
+            <input type="radio" value="ContactPreferencePhone" name="contactRef" [(ngModel)]="employee.contactpref">Phone
           </label>
         </div>
       </div>
@@ -39,10 +41,10 @@
         <label>Gender</label>
         <div class="form-control">
           <label class="radio-inline">
-            <input type="radio" value="male" name="gender" [(ngModel)]="gender" disabled>Male
+            <input type="radio" value="male" name="gender" [(ngModel)]="employee.gender" disabled>Male
           </label>
           <label class="radio-inline">
-            <input type="radio" value="female" name="gender" [(ngModel)]="gender">Female
+            <input type="radio" value="female" name="gender" [(ngModel)]="employee.gender">Female
           </label>
         </div>
       </div>
@@ -50,32 +52,56 @@
       <div class="form-group">
         <div class="form-control">
           <label class="checkbox-inline">
-            <input type="checkbox" name="isActive" [(ngModel)]="isActive">isActive
+            <input type="checkbox" name="isActive" [(ngModel)]="employee.isActive">isActive
           </label>
         </div>
       </div>
 
-      <div class="form-group" >
-          <label for="department">
-            Department
-          </label>
-          <select id="department" name="department" [(ngModel)]="department" class="form-control">
-           <!-- <option value="helpdesk">Help Desk</option>
+      <div class="form-group">
+        <label for="department">
+          Department
+        </label>
+        <select id="department" name="department" [(ngModel)]="employee.department" class="form-control">
+          <!-- <option value="helpdesk">Help Desk</option>
            <option value="hr">HR</option>
            <option value="it" selected>IT</option>
            <option value="payroll">Payroll</option> -->
-           <option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</option>
-          </select>
+          <option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</option>
+        </select>
       </div>
 
+      <div class="row">
+        <div class="form-group col-md-5">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input id="dateOfBirth" name="dateOfBirth" [(ngModel)]="dateOfBirth" type="text" placement="right"
+            bsDatepicker [bsConfig]="datePickerConfig" class="form-control" />
+        </div>
+      </div>
 
+      <div class="form-group">
+        <label for="photopath">Photo Path</label>
+        <input id="photopath" name="photopath" [(ngModel)]="employee.photopath" type="text" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <img [src]="photopath" height="200" width="200" *ngIf="previewPhoto" />
+      </div>
+
+      <div class="form-group">
+        <button id="preview" type="button" (click)="togglePhotoPreview()" class="btn btn-primary"
+          name="preview">{{previewPhoto ? "Hide ": "Preview "}} Photo</button>
+      </div>
     </div>
+
+
 
     <div class="panel-footer">
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary" [disabled]="employee.invalid">Save</button>
     </div>
+
 
   </div>
 </form>
 
 Angular generated form model:{{employeeForm.value | json}}
+our own employee model : {{employee | json}}

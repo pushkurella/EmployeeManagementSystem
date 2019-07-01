@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-list-employees',
@@ -43,9 +44,13 @@ export class ListEmployeesComponent implements OnInit {
       photoPath: 'assets/images/mary.png'
     },
   ];
-  constructor() { }
+  constructor(private studentService : StudentService) { }
 
   ngOnInit() {
+    console.log('inside on init');
+    this.studentService.getStudents().subscribe(resp=>{
+      console.log('response '+resp);
+    });
   }
 
 }

@@ -7,24 +7,37 @@ import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { StudentComponent } from './student/student.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HelloworldComponent } from './helloworld/helloworld.component';
 
 const appRoutes: Routes = [
-  { path : 'create' , component : CreateEmployeeComponent},
-  { path : 'list', component :ListEmployeesComponent},
-  { path : 'list' , redirectTo : '/list', pathMatch : 'full'}
+  {path: 'student', component: StudentComponent},
+  {path: 'list', component: ListEmployeesComponent,
+  children:[
+    {path : '',redirectTo:'create',pathMatch:'full'},
+    {path: 'employee',component: CreateEmployeeComponent},
+    { path : 'create' , component : CreateEmployeeComponent}
+  ]},
+  {path : 'error',component : PageNotFoundComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     ListEmployeesComponent,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    StudentComponent,
+    PageNotFoundComponent,
+    HelloworldComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
